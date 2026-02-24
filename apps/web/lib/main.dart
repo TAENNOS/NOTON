@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'router.dart';
+import 'theme.dart';
 
 void main() {
   runApp(const ProviderScope(child: NotonWebApp()));
@@ -15,10 +16,7 @@ class NotonWebApp extends ConsumerWidget {
     return MaterialApp.router(
       title: 'NOTON',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF6B5CE7)),
-        useMaterial3: true,
-      ),
+      theme: buildNotonTheme(),
       routerConfig: router,
     );
   }
