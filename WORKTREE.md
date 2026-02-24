@@ -1,45 +1,45 @@
-# Worktree: feat/docs-realtime
+# Worktree: feat/chat-notifications
 
 ## Scope
-This worktree implements **docs** and **realtime** services only.
+This worktree implements **chat** and **notifications** services only.
 Do not modify other services or `packages/shared`.
 
 ## Services
 
-### `apps/realtime` (port 3003)
-- y-websocket server — `documentId` = room name
-- Socket.IO presence gateway — track online users per document
-- JWT middleware — verify token on WebSocket handshake
-- `ws://localhost:3003/yjs` — Yjs collaboration endpoint
-- `ws://localhost:3003/presence` — presence endpoint
+### `apps/chat` (port 3004)
+- ChannelsModule — `POST /channels`, `GET /channels/:id`, workspace-scoped
+- MessagesModule — `POST /channels/:id/messages`, `GET /channels/:id/messages` (paginated)
+  - Thread support: `threadId` foreign key on Message
+- NATS publish `message.created` → `MessageCreatedPayload`
 
-### `apps/docs` (port 3002)
-- WorkspacesModule — `POST /workspaces`, `GET /workspaces/:id`
-- DocumentsModule — `POST /documents`, `GET /documents/:id`, `PATCH /documents/:id`
-- YjsModule — store serialized Yjs state in Postgres (`yjsState BYTEA`)
-- VersionsModule — snapshot Yjs state on save
-- NATS publish `doc.updated` → `DocUpdatedPayload`
+### `apps/notifications` (port 3008)
+- NotificationsModule — `GET /notifications` (auth user's notifications), `PATCH /notifications/:id/read`
+- PreferencesModule — `GET/PUT /notifications/preferences`
+- Socket.IO gateway — emit `notification` event to specific user room
+- NATS subscribe `message.created` → create Notification row → emit via Socket.IO
 
 ## Merge
 This worktree merges **2nd** into main (after identity-gateway).
-Can be merged in parallel with `feat/chat-notifications`.
+Can be merged in parallel with `feat/docs-realtime`.
 
 ## Key Types (from @noton/shared)
-- `DocUpdatedPayload` — `{ documentId, workspaceId, updatedBy }`
-- `EVENTS.DOC_UPDATED` — `'doc.updated'`
-- `BlockType` — union of block type strings
+- `MessageCreatedPayload` — `{ channelId, threadId?, authorId, content, type }`
+- `EVENTS.MESSAGE_CREATED` — `'message.created'`
+- `MessageType` — `'text' | 'file' | 'system'`
 
 ## Dependencies
 - identity service must be up for JWT validation
 - NATS JetStream must be running
 
 ## Checklist
-- [ ] `apps/realtime/src/yjs/` — y-websocket server setup
-- [ ] `apps/realtime/src/presence/` — Socket.IO gateway with JWT middleware
-- [ ] `apps/docs/prisma/schema.prisma` — Workspace, Document, Version models
-- [ ] `apps/docs/src/workspaces/` — WorkspacesModule
-- [ ] `apps/docs/src/documents/` — DocumentsModule
-- [ ] `apps/docs/src/yjs/` — YjsModule (BYTEA storage)
-- [ ] `apps/docs/src/versions/` — VersionsModule
-- [ ] NATS client registered in docs AppModule
-- [ ] `prisma migrate dev --name init-docs`
+- [ ] `apps/chat/prisma/schema.prisma` — Channel, Message models (with threadId)
+- [ ] `apps/chat/src/channels/` — ChannelsModule
+- [ ] `apps/chat/src/messages/` — MessagesModule
+- [ ] NATS publish `message.created` in MessagesService
+- [ ] `apps/notifications/prisma/schema.prisma` — Notification, NotificationPreference models
+- [ ] `apps/notifications/src/notifications/` — NotificationsModule
+- [ ] `apps/notifications/src/preferences/` — PreferencesModule
+- [ ] `apps/notifications/src/gateway/` — Socket.IO gateway
+- [ ] NATS subscription for `message.created` in notifications AppModule
+- [ ] `prisma migrate dev --name init-chat` (chat service)
+- [ ] `prisma migrate dev --name init-notifications` (notifications service)
