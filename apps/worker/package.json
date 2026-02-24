@@ -15,8 +15,10 @@
     "@nestjs/platform-fastify": "^10.4.0",
     "@nestjs/config": "^3.3.0",
     "@nestjs/bullmq": "^10.2.0",
+    "@nestjs/microservices": "^10.4.0",
     "@noton/shared": "workspace:*",
     "bullmq": "^5.0.0",
+    "nats": "^2.29.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.0"
   },
