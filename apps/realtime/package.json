@@ -12,19 +12,19 @@
   "dependencies": {
     "@nestjs/common": "^10.4.0",
     "@nestjs/core": "^10.4.0",
-    "@nestjs/platform-fastify": "^10.4.0",
     "@nestjs/config": "^3.3.0",
-    "@nestjs/websockets": "^10.4.0",
-    "@nestjs/platform-socket.io": "^10.4.0",
+    "@nestjs/jwt": "^10.2.0",
     "@noton/shared": "workspace:*",
-    "y-websocket": "^2.0.0",
     "socket.io": "^4.8.0",
+    "ws": "^8.18.0",
+    "y-websocket": "^2.0.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.0"
   },
   "devDependencies": {
     "@noton/tsconfig": "workspace:*",
     "@types/node": "^22.0.0",
+    "@types/ws": "^8.5.0",
     "typescript": "^5.7.0",
     "ts-node-dev": "^2.0.0",
     "rimraf": "^6.0.0"
