@@ -19,7 +19,7 @@ class AuthRepository {
     required String password,
   }) async {
     final res = await _dio.post('/identity/auth/register', data: {
-      'name': name,
+      'displayName': name,
       'email': email,
       'password': password,
     });
