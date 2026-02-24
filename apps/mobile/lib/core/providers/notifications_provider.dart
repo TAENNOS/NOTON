@@ -49,10 +49,9 @@ class NotificationsNotifier
     final token = await _storage.getAccessToken();
 
     _socket = io.io(
-      kNotificationsUrl,
+      '$kNotificationsUrl/notifications',
       io.OptionBuilder()
           .setTransports(['websocket', 'polling'])
-          .setNamespace('/notifications')
           .setQuery({'token': token ?? ''})
           .disableAutoConnect()
           .build(),

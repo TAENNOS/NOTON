@@ -66,10 +66,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     final token = await storage.getAccessToken();
 
     _socket = io.io(
-      kNotificationsHost,
+      '$kNotificationsHost/notifications',
       io.OptionBuilder()
           .setTransports(['websocket', 'polling'])
-          .setNamespace('/notifications')
           .setQuery({'token': token ?? ''})
           .disableAutoConnect()
           .build(),
