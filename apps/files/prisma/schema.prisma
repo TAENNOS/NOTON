@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model FileRecord {
+  id           String   @id @default(cuid())
+  uploaderId   String
+  workspaceId  String
+  filename     String
+  originalName String
+  mimeType     String
+  size         Int
+  bucketKey    String   @unique
+  isPublic     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+}
