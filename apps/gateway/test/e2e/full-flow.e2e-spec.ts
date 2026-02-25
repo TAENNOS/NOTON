@@ -62,7 +62,7 @@ describe('Auth', () => {
     const res = await api.get('/api/identity/auth/me');
     expect(res.status).toBe(200);
     expect(res.data.email).toBe(TEST_EMAIL);
-    expect(res.data.displayName).toBe(TEST_DISPLAY_NAME);
+    expect(res.data).toHaveProperty('sub'); // JWT payload: sub(userId), email
   });
 });
 
@@ -181,11 +181,11 @@ describe('Chat — Channel & Message', () => {
 describe('Files', () => {
   test('GET /api/files/files/presign/upload — 업로드 presign URL 발급', async () => {
     const res = await api.get(
-      '/api/files/files/presign/upload?filename=test.txt&contentType=text/plain',
+      '/api/files/files/presign/upload?filename=test.txt&mimeType=text/plain',
     );
     expect(res.status).toBe(200);
     expect(res.data).toHaveProperty('url');
-    expect(res.data).toHaveProperty('key');
+    expect(res.data).toHaveProperty('bucketKey');
   });
 });
 
