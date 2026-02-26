@@ -12,7 +12,9 @@ build/
 .env
 .env.local
 .env.*.local
+.env.prod
 !.env.example
+!.env.prod.example
 !.env.docker
 
 # Logs
@@ -35,6 +37,8 @@ Thumbs.db
 
 # Prisma
 # prisma/migrations/ — migrations must be committed
+# Prisma 생성 클라이언트 (각 서비스 src/prisma-client/) — 빌드 시 생성됨
+src/prisma-client/
 
 # Claude Code
 .claude/worktrees/
