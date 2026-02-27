@@ -24,7 +24,7 @@
 # ─────────────────────────────────────────────────────────────────────────────
 set -euo pipefail
 
-REPO_URL="https://github.com/YOUR_USERNAME/NOTON.git"   # ← 수정
+REPO_URL="https://github.com/TAENNOS/NOTON.git"
 REPO_DIR="$HOME/NOTON"
 
 GREEN='\033[0;32m'; YELLOW='\033[1;33m'; NC='\033[0m'
